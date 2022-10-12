@@ -64,7 +64,17 @@ let player;
 function update() {
   //startup function
   if (!ticks) {
-    player = { pos: vec(G.WIDTH/2, 97), vx: 0, ty: 90 };
+    //star setup
+    stars = [];
+    for (let i = 0; i < 7; i++) {
+      stars.push({
+          pos: vec(rnd(G.WIDTH, G.WIDTH + 500), rnd(0, G.HEIGHT/2)),
+//          size: vec(100,100),
+          size: vec(rnd(G.WIDTH_MIN,G.WIDTH_MAX),rnd(G.HEIGHT_MIN,G.HEIGHT_MAX)),
+      });
+    }
+
+    player = { pos: vec(10, G.HEIGHT - 10), vx: 0, ty: 90 };
   }
   
   color("black")
@@ -75,11 +85,14 @@ function update() {
   if (input.isPressed && player.pos.y > 5) {
     player.pos.y -= 1;
   }else{
-    if(player.pos.y < G.HEIGHT-102){
+    if(player.pos.y < G.HEIGHT -10){
       player.pos.y += 1;
     }
   }
-  
+
+
+  color("light_black");
+  rect(0, G.HEIGHT - 7, G.WIDTH, 100);
 }
 
 addEventListener("load", onLoad);
