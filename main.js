@@ -49,10 +49,18 @@ options = {
 /** @type {{pos: Vector, size: Vector}} */
 let player;
 
+/** @type {{pos: Vector, speed: Int}} */
+let redCube;
+
+/** @type {{pos: Vector, speed: Int}} */
+let blueCube;
+
 function update() {
   //startup function
   if (!ticks) {
     player = { pos: vec(10, G.HEIGHT - 10), vx: 0, ty: 90 };
+    redCube = { pos: vec(4*G.WIDTH/5, 14*G.HEIGHT/16), speed: 1};
+    blueCube = { pos: vec(4*G.WIDTH/5, 12*G.HEIGHT/16), speed: 1};
   }
   
   color("black")
@@ -68,6 +76,21 @@ function update() {
     }
   }
 
+  //red cube
+  color("red");
+  redCube.pos.x -= redCube.speed;
+  if (redCube.pos.x < 0) {
+    redCube.pos.x = G.WIDTH;
+  }
+  box(redCube.pos, 3);
+
+  //blue cube
+  color("blue");
+  blueCube.pos.x -= blueCube.speed;
+  if (blueCube.pos.x < 0) {
+    blueCube.pos.x = G.WIDTH;
+  }
+  box(blueCube.pos, 3);
 
   color("light_black");
   rect(0, G.HEIGHT - 7, G.WIDTH, 100);
