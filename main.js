@@ -64,16 +64,6 @@ let player;
 function update() {
   //startup function
   if (!ticks) {
-    //star setup
-    stars = [];
-    for (let i = 0; i < 7; i++) {
-      stars.push({
-          pos: vec(rnd(G.WIDTH, G.WIDTH + 500), rnd(0, G.HEIGHT/2)),
-//          size: vec(100,100),
-          size: vec(rnd(G.WIDTH_MIN,G.WIDTH_MAX),rnd(G.HEIGHT_MIN,G.HEIGHT_MAX)),
-      });
-    }
-
     player = { pos: vec(G.WIDTH/2, 97), vx: 0, ty: 90 };
   }
   
@@ -82,29 +72,6 @@ function update() {
     mirror: { x: player.vx < 0 ? -1 : 1 },
   }).isColliding;
 
-  // Update for Star
-  stars.forEach((s) => {
-    // Move the star downwards
-    s.pos.x -= G.SPEED;
-    // Bring the star back to top once it's past the bottom of the screen
-    if (s.pos.x < 0) {
-      s.pos.x = G.WIDTH;
-      s.pos.y = rnd(1, G.HEIGHT - 1);
-    }
-    // Choose a color to draw
-    color("cyan");
-    rect(s.pos.x, s.pos.y, s.size.x, s.size.y);
-
-    if (s.pos.y >= player.pos.y - s.size.y - 5 && s.pos.y <= player.pos.y + 5) {
-      if (s.pos.x >= player.pos.x - s.size.x + 5 && s.pos.x <= player.pos.x + s.size.x/2 - 5) {
-        end();
-      }
-    }
-    if(player.pos.x > s.pos.x){
-
-    }
-  });
-
   if (input.isPressed && player.pos.y > 5) {
     player.pos.y -= 1;
   }else{
@@ -112,10 +79,7 @@ function update() {
       player.pos.y += 1;
     }
   }
-
-
-  color("light_black");
-  rect(0, G.HEIGHT-100, G.WIDTH, 100);
+  
 }
 
 addEventListener("load", onLoad);
