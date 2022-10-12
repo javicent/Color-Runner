@@ -46,34 +46,12 @@ options = {
   theme: "blue"
 };
 
-/**
-* @typedef {{
-* pos: Vector, size: Vector
-* }} Star
-*/
-  
-/**
-* @type  { Star [] }
-*/
-let stars = [];
-startick = 0;
-
 /** @type {{pos: Vector, size: Vector}} */
 let player;
 
 function update() {
   //startup function
   if (!ticks) {
-    //star setup
-    stars = [];
-    for (let i = 0; i < 7; i++) {
-      stars.push({
-          pos: vec(rnd(G.WIDTH, G.WIDTH + 500), rnd(0, G.HEIGHT/2)),
-//          size: vec(100,100),
-          size: vec(rnd(G.WIDTH_MIN,G.WIDTH_MAX),rnd(G.HEIGHT_MIN,G.HEIGHT_MAX)),
-      });
-    }
-
     player = { pos: vec(10, G.HEIGHT - 10), vx: 0, ty: 90 };
   }
   
