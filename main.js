@@ -74,7 +74,7 @@ function update() {
       });
     }
 
-    player = { pos: vec(G.WIDTH/2, 97), vx: 0, ty: 90 };
+    player = { pos: vec(10, G.HEIGHT - 10), vx: 0, ty: 90 };
   }
   
   color("black")
@@ -108,14 +108,14 @@ function update() {
   if (input.isPressed && player.pos.y > 5) {
     player.pos.y -= 1;
   }else{
-    if(player.pos.y < G.HEIGHT-102){
+    if(player.pos.y < G.HEIGHT -10){
       player.pos.y += 1;
     }
   }
 
 
   color("light_black");
-  rect(0, G.HEIGHT-100, G.WIDTH, 100);
+  rect(0, G.HEIGHT - 7, G.WIDTH, 100);
 }
 
 addEventListener("load", onLoad);
