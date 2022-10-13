@@ -46,7 +46,7 @@ options = {
   theme: "blue"
 };
 
-/** @type {{pos: Vector, size: Vector}} */
+/** @type {{pos: Vector, size: Vector, color: String}} */
 let player;
 
 /** @type {{pos: Vector, speed: Int}} */
@@ -60,17 +60,20 @@ let platform;
 
 let currentLevel = 1;
 
+let colorChangeDistance = 4;
+
 function update() {
   //startup function
   if (!ticks) {
-    player = { pos: vec(10, G.HEIGHT - 10), vx: 0, ty: 90 };
+    player = { pos: vec(10, G.HEIGHT - 10), vx: 0, ty: 90, color: "black"};
     redCube = { pos: vec(4*G.WIDTH/5, 14*G.HEIGHT/16), speed: 1};
     blueCube = { pos: vec(4*G.WIDTH/5, 12*G.HEIGHT/16), speed: 1};
     redPlatform = { pos: vec(4*G.WIDTH/5, 16*G.HEIGHT/16), size: vec(G.WIDTH, 10)};
-    bluePlatform = { pos: vec(4*G.WIDTH/5, 16*G.HEIGHT/16), size: vec(G.WIDTH, 10)};
+    bluePlatform = { pos: vec(4*G.WIDTH/5, 16*  G.HEIGHT/16), size: vec(G.WIDTH, 10)};
   }
   
-  color("black")
+//player
+  color(player.color)
   const c = char(addWithCharCode("a", floor(ticks / 15) % 2), player.pos, {
     mirror: { x: player.vx < 0 ? -1 : 1 },
   }).isColliding;
@@ -110,18 +113,25 @@ function update() {
   if (redCube.pos.x < 0) {
     redCube.pos.x = G.WIDTH;
   }
+  //red cube collision
+  if (abs(redCube.pos.y - player.pos.y) < colorChangeDistance && abs(redCube.pos.x - player.pos.x) < colorChangeDistance) {
+    player.color = "red";
+  }
   box(redCube.pos, 3);
-
   //blue cube
   color("blue");
   blueCube.pos.x -= blueCube.speed;
   if (blueCube.pos.x < 0) {
     blueCube.pos.x = G.WIDTH;
   }
+  //blue cube collision
+  if (abs(blueCube.pos.y - player.pos.y) < colorChangeDistance && abs(blueCube.pos.x - player.pos.x) < colorChangeDistance) {
+    player.color = "blue";
+  }
   box(blueCube.pos, 3);
-
-  color("light_black");
-  rect(0, G.HEIGHT - 10, G.WIDTH, 100);
 }
+  function canPass(p){
+    
+  }
 
 addEventListener("load", onLoad);
