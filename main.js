@@ -55,12 +55,16 @@ let redCube;
 /** @type {{pos: Vector, speed: Int}} */
 let blueCube;
 
+/** @type {{pos: Vector, size: Vector}}*/
+let platform;
+
 function update() {
   //startup function
   if (!ticks) {
     player = { pos: vec(10, G.HEIGHT - 10), vx: 0, ty: 90 };
     redCube = { pos: vec(4*G.WIDTH/5, 14*G.HEIGHT/16), speed: 1};
     blueCube = { pos: vec(4*G.WIDTH/5, 12*G.HEIGHT/16), speed: 1};
+    platform = { pos: vec(4*G.WIDTH/5, 16*G.HEIGHT/16), size: vec(G.WIDTH, 10)};
   }
   
   color("black")
@@ -68,13 +72,18 @@ function update() {
     mirror: { x: player.vx < 0 ? -1 : 1 },
   }).isColliding;
 
+  //platform
+  color("light_black");
+  rect(0, G.HEIGHT - 47, G.WIDTH, 5);
+
   if (input.isPressed && player.pos.y > 5) {
     player.pos.y -= 1;
   }else{
-    if(player.pos.y < G.HEIGHT -10){
+    if(!player.pos.isInRect(0, G.HEIGHT - 50, G.WIDTH, 5)){
       player.pos.y += 1;
     }
   }
+
 
   //red cube
   color("red");
@@ -93,7 +102,7 @@ function update() {
   box(blueCube.pos, 3);
 
   color("light_black");
-  rect(0, G.HEIGHT - 7, G.WIDTH, 100);
+  rect(0, G.HEIGHT - 10, G.WIDTH, 100);
 }
 
 addEventListener("load", onLoad);
