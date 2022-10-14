@@ -66,25 +66,34 @@ function update() {
   //startup function
   if (!ticks) {
     player = { pos: vec(10, G.HEIGHT - 10), vx: 0, ty: 90, color: "black"};
-    redCube = { pos: vec(4*G.WIDTH/5, 14*G.HEIGHT/16), speed: 1};
-    blueCube = { pos: vec(4*G.WIDTH/5, 12*G.HEIGHT/16), speed: 1};
-    rPlatform = { pos: vec(G.WIDTH + 100, G.HEIGHT - 67), size: vec(20, 5)};
-    bPlatform = { pos: vec(G.WIDTH + 300, G.HEIGHT - 67), size: vec(20, 5)};
+    redCube = { pos: vec(G.WIDTH, G.HEIGHT - 25), speed: 1};
+    blueCube = { pos: vec(G.WIDTH, G.HEIGHT - 40), speed: 1};
+    rPlatform = { pos: vec(G.WIDTH + 100, G.HEIGHT - 60), size: vec(20, 5)};
+    bPlatform = { pos: vec(G.WIDTH + 300, G.HEIGHT - 60), size: vec(20, 5)};
   }
 
   //platforms
   color("light_black");
-  rect(0, G.HEIGHT - 67, G.WIDTH, 5);
+  rect(0, G.HEIGHT - 10, G.WIDTH, 10);
 
   color("light_black");
-  rect(0, G.HEIGHT - 10, G.WIDTH, 7);
-  
+  rect(0, G.HEIGHT - 60, G.WIDTH, 5);
+
+  color("light_black")
+  rect(0, G.HEIGHT - 110, G.WIDTH, 5);
+
+  color("light_black")
+  rect(0, G.HEIGHT - 160, G.WIDTH, 5);
+
+  color("light_black")
+  rect(0, 0, G.WIDTH, G.HEIGHT - 210);
 
   color("red");
   rect(rPlatform.pos.x,rPlatform.pos.y,rPlatform.size.x,rPlatform.size.y)
   rPlatform.pos.x --;
   if (rPlatform.pos.x < rPlatform.size.x*-1) {
     rPlatform.pos.x = rnd(G.WIDTH,G.WIDTH+100);
+    rPlatform.pos.y = G.HEIGHT - Math.floor(rnd(0,3))*50 - 60;
   }
 
   color("blue");
@@ -92,6 +101,7 @@ function update() {
   bPlatform.pos.x --;
   if (bPlatform.pos.x < bPlatform.size.x*-1) {
     bPlatform.pos.x = rnd(G.WIDTH,G.WIDTH+100);
+    bPlatform.pos.y = G.HEIGHT - Math.floor(rnd(0,3))*50 - 60;
   }
 
   //player
@@ -100,17 +110,14 @@ function update() {
     mirror: { x: player.vx < 0 ? -1 : 1 },
   }).isColliding;
   
-  if(player.pos.y < G.HEIGHT - 60){
-    console.log('good');
-  }
   if(currentLevel == 1){
     if(canPass()){
       player.pos.y -= 10;
       currentLevel = 2;
     }else 
-      if (input.isPressed && player.pos.y > G.HEIGHT - 60) {
+      if (input.isPressed && player.pos.y > G.HEIGHT - 53) {
         player.pos.y -= 1;
-        if(player.pos.y < G.HEIGHT - 60){
+        if(player.pos.y < G.HEIGHT - 53){
           currentLevel = 2;
         }
       }else{
@@ -120,37 +127,37 @@ function update() {
       }    
     }
 
-    
-
     if(currentLevel == 2){
 //      console.log(player.pos.y);
-      if(canPass() && player.pos.y < G.HEIGHT - 64){
+      if(canPass() && player.pos.y < G.HEIGHT - 60){
         player.pos.y += 10;
         currentLevel = 1;
       }
        
-      if (input.isPressed && player.pos.y > G.HEIGHT - 100) {
+      if (input.isPressed && player.pos.y > G.HEIGHT - 103) {
         player.pos.y -= 1;
       }else{
-        if(!player.pos.isInRect(0, G.HEIGHT - 70, G.WIDTH, 100)){
+        if(!player.pos.isInRect(0, G.HEIGHT - 63, G.WIDTH, 100)){
           player.pos.y += 1;
         }
       }    
       if (input.isPressed && player.pos.y > 5) {
         player.pos.y -= 1;
       }else{
-        if(!player.pos.isInRect(0, G.HEIGHT - 70, G.WIDTH, 5)){
+        if(!player.pos.isInRect(0, G.HEIGHT - 63, G.WIDTH, 5)){
           player.pos.y += 1;
         }
       }    
     }
 
-
+console.log(redCube.pos.y)
   //red cube
   color("red");
   redCube.pos.x -= redCube.speed;
   if (redCube.pos.x < 0) {
+    redCube.pos.x = rnd(G.WIDTH, G.WIDTH + 200);
     redCube.pos.x = G.WIDTH;
+    redCube.pos.y = G.HEIGHT - Math.floor(rnd(0,3))*50 - 25;    
   }
   //red cube collision
   if (abs(redCube.pos.y - player.pos.y) < colorChangeDistance && abs(redCube.pos.x - player.pos.x) < colorChangeDistance) {
@@ -161,8 +168,8 @@ function update() {
   color("blue");
   blueCube.pos.x -= blueCube.speed;
   if (blueCube.pos.x < 0) {
-    blueCube.pos.x = G.WIDTH;
-  }
+    blueCube.pos.x = rnd(G.WIDTH, G.WIDTH + 200);
+    blueCube.pos.y = G.HEIGHT - Math.floor(rnd(0,3))*50 - 40;      }
   //blue cube collision
   if (abs(blueCube.pos.y - player.pos.y) < colorChangeDistance && abs(blueCube.pos.x - player.pos.x) < colorChangeDistance) {
     player.color = "blue";
