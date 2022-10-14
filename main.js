@@ -46,7 +46,7 @@ options = {
   isReplayEnabled: true,
   isDrawingScoreFront: true,
   seed: 3,
-  theme: "blue"
+  theme: "shapeDark"
 };
 
 /** @type {{pos: Vector, size: Vector, color: String}} */
@@ -69,14 +69,12 @@ let currentLevel = 1;
 let colorChangeDistance = 4;
 
 function update() {
-  color("black")
-  rect(0, G.HEIGHT - 110, G.WIDTH, G.HEIGHT);
-
+  G.SPEED += 1/10000000;
   //startup function
   if (!ticks) {
     currentLevel = 1
 
-    player = { pos: vec(10, G.HEIGHT - 10), vx: 0, ty: 90, color: "white"};
+    player = { pos: vec(10, G.HEIGHT - 10), vx: 0, ty: 90, color: "black"};
 
     redCube = { pos: vec(G.WIDTH, G.HEIGHT - 25), speed: G.SPEED};
     blueCube = { pos: vec(G.WIDTH, G.HEIGHT - 40), speed: G.SPEED};
@@ -371,7 +369,7 @@ function canPass(){
     play("explosion");
     return end();
   }
-  if(player.pos.isInRect(yOb.pos.x,yOb.pos.y-3,yOb.size.x,yOb.size.y*2+1) && player.color != 'yellow'){
+  if(player.pos.isInRect(yOb.pos.x,yOb.pos.y,yOb.size.x,yOb.size.y) && player.color != 'yellow'){
     play("explosion");
     return end();
   }
