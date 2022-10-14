@@ -1,7 +1,9 @@
 title = "Color Runner";
 
 description = `
-
+[HOLD] Fly Up
+Pick up color orbs to switch colors
+Other colored obstacles will stop you
 `;
 
 /*
@@ -67,11 +69,14 @@ let currentLevel = 1;
 let colorChangeDistance = 4;
 
 function update() {
+  color("black")
+  rect(0, G.HEIGHT - 110, G.WIDTH, G.HEIGHT);
+
   //startup function
   if (!ticks) {
     currentLevel = 1
 
-    player = { pos: vec(10, G.HEIGHT - 10), vx: 0, ty: 90, color: "black"};
+    player = { pos: vec(10, G.HEIGHT - 10), vx: 0, ty: 90, color: "white"};
 
     redCube = { pos: vec(G.WIDTH, G.HEIGHT - 25), speed: G.SPEED};
     blueCube = { pos: vec(G.WIDTH, G.HEIGHT - 40), speed: G.SPEED};
@@ -315,7 +320,7 @@ function update() {
     player.color = "yellow";
     play("jump");
   }
-  box(greenCube.pos, 3);
+  box(yCube.pos, 3);
 }
 function canPass(){
   //Red Collisions
@@ -327,7 +332,7 @@ function canPass(){
     play("explosion");
     return end();
   }
-  if(player.pos.isInRect(rOb.pos.x,rOb.pos.y-3,rOb.size.x,rOb.size.y*2+1) && player.color != 'red'){
+  if(player.pos.isInRect(rOb.pos.x,rOb.pos.y,rOb.size.x,rOb.size.y) && player.color != 'red'){
     play("explosion");
     return end();
   }
@@ -340,7 +345,7 @@ function canPass(){
     play("explosion");
     return end();
   }
-  if(player.pos.isInRect(bOb.pos.x,bOb.pos.y-3,bOb.size.x,bOb.size.y*2+1) && player.color != 'blue'){
+  if(player.pos.isInRect(bOb.pos.x,bOb.pos.y,bOb.size.x,bOb.size.y) && player.color != 'blue'){
     play("explosion");
     return end();
   }
@@ -353,7 +358,7 @@ function canPass(){
     play("explosion");
     return end();
   }
-  if(player.pos.isInRect(gOb.pos.x,gOb.pos.y-3,gOb.size.x,gOb.size.y*2+1) && player.color != 'green'){
+  if(player.pos.isInRect(gOb.pos.x,gOb.pos.y,gOb.size.x,gOb.size.y) && player.color != 'green'){
     play("explosion");
     return end();
   }
