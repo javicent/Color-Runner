@@ -105,7 +105,7 @@ function update() {
   }
   if(currentLevel == 1){
     if(canPass()){
-      player.pos.y -= 25;
+      player.pos.y -= 10;
       currentLevel = 2;
     }else 
       if (input.isPressed && player.pos.y > G.HEIGHT - 60) {
@@ -125,7 +125,7 @@ function update() {
     if(currentLevel == 2){
 //      console.log(player.pos.y);
       if(canPass() && player.pos.y < G.HEIGHT - 64){
-        player.pos.y += 25;
+        player.pos.y += 10;
         currentLevel = 1;
       }
        
