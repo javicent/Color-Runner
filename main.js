@@ -68,7 +68,7 @@ function update() {
     player = { pos: vec(10, G.HEIGHT - 10), vx: 0, ty: 90, color: "black"};
     redCube = { pos: vec(4*G.WIDTH/5, 14*G.HEIGHT/16), speed: 1};
     blueCube = { pos: vec(4*G.WIDTH/5, 12*G.HEIGHT/16), speed: 1};
-    rPlatform = { pos: vec(rnd(G.WIDTH,G.WIDTH + 100), G.HEIGHT - 47), size: vec(50, 5)};
+    rPlatform = { pos: vec(rnd(G.WIDTH,G.WIDTH + 100), G.HEIGHT - 49), size: vec(50, 9)};
     bPlatform = { pos: vec(rnd(G.WIDTH,G.WIDTH + 100), G.HEIGHT - 47), size: vec(50, 5)};
   }
 
@@ -89,8 +89,25 @@ function update() {
     mirror: { x: player.vx < 0 ? -1 : 1 },
   }).isColliding;
 
-console.log(canPass());
-  if(currentLevel == 1){
+  if (input.isPressed) {
+    player.pos.y -= 1;
+    if(player.pos.y < G.HEIGHT - 40){
+      player.pos.y += 1;
+      if(canPass()){
+        player.pos.y -= 1;
+        if(input.isPressed){
+
+         player.pos.y --;
+        }
+//        console.log(player.pos.y); // 177       
+      }
+    }
+  } else {
+    if(!player.pos.isInRect(0, G.HEIGHT - 50, G.WIDTH, 5)){
+      player.pos.y += 1;
+    }
+  }
+/*  if(currentLevel == 1){
     if(canPass()){
       player.pos.y -= 1;
     } else 
@@ -114,7 +131,7 @@ console.log(canPass());
         }
       }    
     }
-  
+  */
 
   //red cube
   color("red");
@@ -140,7 +157,8 @@ console.log(canPass());
   box(blueCube.pos, 3);
 }
   function canPass(){
-    if(player.pos.isInRect(rPlatform.pos.x,rPlatform.pos.y + 4,rPlatform.size.x,rPlatform.size.y + 4 && player.color == 'red')){
+    if(player.pos.isInRect(rPlatform.pos.x,rPlatform.pos.y+4,rPlatform.size.x,rPlatform.size.y) && player.color == 'red'){
+      console.log('works');
       return true;
     }
     else
