@@ -68,13 +68,13 @@ function update() {
     player = { pos: vec(10, G.HEIGHT - 10), vx: 0, ty: 90, color: "black"};
     redCube = { pos: vec(4*G.WIDTH/5, 14*G.HEIGHT/16), speed: 1};
     blueCube = { pos: vec(4*G.WIDTH/5, 12*G.HEIGHT/16), speed: 1};
-    rPlatform = { pos: vec(G.WIDTH + 100, G.HEIGHT - 47), size: vec(70, 5)};
-    bPlatform = { pos: vec(G.WIDTH + 300, G.HEIGHT - 47), size: vec(70, 5)};
+    rPlatform = { pos: vec(G.WIDTH + 100, G.HEIGHT - 67), size: vec(20, 5)};
+    bPlatform = { pos: vec(G.WIDTH + 300, G.HEIGHT - 67), size: vec(20, 5)};
   }
 
   //platforms
   color("light_black");
-  rect(0, G.HEIGHT - 47, G.WIDTH, 5);
+  rect(0, G.HEIGHT - 67, G.WIDTH, 5);
 
   color("light_black");
   rect(0, G.HEIGHT - 10, G.WIDTH, 7);
@@ -99,16 +99,18 @@ function update() {
   const c = char(addWithCharCode("a", floor(ticks / 15) % 2), player.pos, {
     mirror: { x: player.vx < 0 ? -1 : 1 },
   }).isColliding;
-console.log(currentLevel);
-
+  
+  if(player.pos.y < G.HEIGHT - 60){
+    console.log('good');
+  }
   if(currentLevel == 1){
     if(canPass()){
-      player.pos.y -= 15;
+      player.pos.y -= 25;
       currentLevel = 2;
     }else 
-      if (input.isPressed && player.pos.y > G.HEIGHT - 40) {
+      if (input.isPressed && player.pos.y > G.HEIGHT - 60) {
         player.pos.y -= 1;
-        if(player.pos.y < G.HEIGHT - 40){
+        if(player.pos.y < G.HEIGHT - 60){
           currentLevel = 2;
         }
       }else{
@@ -117,11 +119,27 @@ console.log(currentLevel);
         }
       }    
     }
+
+    
+
     if(currentLevel == 2){
+//      console.log(player.pos.y);
+      if(canPass() && player.pos.y < G.HEIGHT - 64){
+        player.pos.y += 25;
+        currentLevel = 1;
+      }
+       
+      if (input.isPressed && player.pos.y > G.HEIGHT - 100) {
+        player.pos.y -= 1;
+      }else{
+        if(!player.pos.isInRect(0, G.HEIGHT - 70, G.WIDTH, 100)){
+          player.pos.y += 1;
+        }
+      }    
       if (input.isPressed && player.pos.y > 5) {
         player.pos.y -= 1;
       }else{
-        if(!player.pos.isInRect(0, G.HEIGHT - 50, G.WIDTH, 5)){
+        if(!player.pos.isInRect(0, G.HEIGHT - 70, G.WIDTH, 5)){
           player.pos.y += 1;
         }
       }    
@@ -152,14 +170,19 @@ console.log(currentLevel);
   box(blueCube.pos, 3);
 }
   function canPass(){
-/*    if(player.pos.isColliding.rect.red(rPlatform.pos.x,rPlatform.pos.y+4,rPlatform.size.x,rPlatform.size.y) && player.color == 'red'){
-      console.log('works');
+    //Red Collisions
+    if(player.pos.isInRect(rPlatform.pos.x,rPlatform.pos.y-3,rPlatform.size.x,rPlatform.size.y*2+1) && player.color == 'red'){
       return true;
     }
-*/
-    if(player.pos.isInRect(rPlatform.pos.x,rPlatform.pos.y+3,rPlatform.size.x,rPlatform.size.y+7) && player.color == 'red'){
-//      console.log('works');
+    if(player.pos.isInRect(rPlatform.pos.x,rPlatform.pos.y-3,rPlatform.size.x,rPlatform.size.y*2+1) && player.color == 'blue'){
+      return end();
+    }
+    //Blue Collisions
+    if(player.pos.isInRect(bPlatform.pos.x,bPlatform.pos.y-3,bPlatform.size.x,bPlatform.size.y*2+1) && player.color == 'blue'){
       return true;
+    }
+    if(player.pos.isInRect(bPlatform.pos.x,bPlatform.pos.y-3,bPlatform.size.x,bPlatform.size.y*2+1) && player.color == 'red'){
+      return end();
     }
     else
     {
