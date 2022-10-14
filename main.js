@@ -147,6 +147,7 @@ function update() {
   }
 
   //player
+  addScore(0.1);
   color(player.color)
   const c = char(addWithCharCode("a", floor(ticks / 15) % 2), player.pos, {
     mirror: { x: player.vx < 0 ? -1 : 1 },
